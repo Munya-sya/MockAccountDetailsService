@@ -1,0 +1,4 @@
+com\simple\example\MockRequestExampleRouteBuilder.class
+com\simple\example\MockProcessor.class
+com\simple\example\Application.class
+com\simple\example\RestConfiguration.class

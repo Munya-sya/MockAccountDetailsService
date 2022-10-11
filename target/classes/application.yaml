@@ -1,0 +1,94 @@
+# camel configuration
+camel:
+  springboot:
+    jmx-enabled: false
+    main-run-controller: true
+    name: simple-example-project
+    shutdownTimeout: 1
+    xmlRests: false
+    xmlRoutes: false
+  component:
+    servlet:
+      name: servlet
+      mapping:
+        enabled: true
+        context-path: /api/*
+# project configuration
+adapter:
+  api:
+    path: /api
+    enableCors: true
+  api-docs:
+    path: /api-docs
+    version: 0.0.1
+    title: example-project
+
+#logging configuration path
+logging:
+  config: classpath:logback.xml
+
+# spring boot management server instance properties
+management:
+  server:
+    port: 8081
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: info, health
+      base-path: /
+
+# spring boot server instance properties
+server:
+  port: 8081
+
+# app information
+info:
+  app:
+    name: b2c-fundtransfer-adapter-project
+    description: B2C Fund Transfer Adapter Project
+    version: 0.0.1-SNAPSHOT
+    
+---
+spring:
+  profiles: local
+
+# spring boot server instance properties
+server:
+  port: 8081
+  undertow:
+    worker-threads: 20
+    io-threads: 1
+    
+---
+spring:
+  profiles: remote
+
+
+      
+# redis java client configuration
+# run this command 2 connect to remote redis: oc port-forward <redis-pod-name> 16379:6379
+# redis java client configuration
+redis:
+  jedis:
+    serviceName: kcb-redis-cache
+    servicePort: 6379
+    maxActive: 50
+    maxIdle: 50
+    minIdle: 10
+    blockWhenExhausted: true
+    maxWaitSeconds: 2
+    minEvictableIdleTimeSeconds: 120
+    timeBetweenEvictionRunsSeconds: 60
+    testOnBorrow: false
+    testWhileIdle: true
+    password: cGFzc3dvcmQ0UmVkaXM=
+    timeOutSeconds: 3
+
+# spring boot server instance properties
+server:
+  port: 8081
+  undertow:
+    worker-threads: 10
+    io-threads: 1

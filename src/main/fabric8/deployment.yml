@@ -1,0 +1,42 @@
+spec:
+  template:
+    spec:
+      containers:
+        - 
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: 256Mi
+            limits:
+              cpu: "1.0"
+              memory: 256Mi
+          env:
+          - name: SPRING_APPLICATION_JSON
+            value: '{"server":{"undertow":{"io-threads":1, "worker-threads":2 }}}'
+          - name: CAMEL_COMPONENT_AMQP_SERVICENAME
+            valueFrom:
+              configMapKeyRef:
+                name: kcb-camel-amq-config
+                key: service.host2
+          - name: CAMEL_COMPONENT_AMQP_SERVICEPORT
+            valueFrom:
+              configMapKeyRef:
+                name: kcb-camel-amq-config
+                key: service.port.amqp2
+          - name: CAMEL_COMPONENT_AMQP_PARAMETERS
+            value: transport.trustAll=true&transport.verifyHost=false&amqp.idleTimeout=120000
+          - name: REDIS_JEDIS_SERVICENAME
+            valueFrom:
+              configMapKeyRef:
+                name: kcb-redis-cache
+                key: service.host
+          - name: REDIS_JEDIS_SERVICEPORT
+            valueFrom:
+              configMapKeyRef:
+                name: kcb-redis-cache
+                key: service.port
+          - name: REDIS_JEDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: kcb-redis-cache
+                key: database-password
